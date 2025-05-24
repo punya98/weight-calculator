@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seamless Pipe Weight Calculator</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 0 20px;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #000000;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #555555;
+        }
+        label, select, input {
+            display: inline-block;
+            margin: 10px 8px 20px 0;
+            font-size: 16px;
+        }
+        select, input {
+            padding: 10px;
+            width: 260px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #333333;
+        }
+        #pipeInputs > div {
+            margin-bottom: 15px;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #0a7f42;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 14px;
+            color: #888888;
+        }
+        .cta {
+            margin-top: 40px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .cta a {
+            color: #000000;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Seamless Pipe Weight Calculator</h1>
+    <p>Quickly calculate the total weight of multiple seamless pipes based on length and schedule. Designed by Vijay Sales Corporation.</p>
+
+    <div id="pipeInputs">
+        <div>
+            <select class="pipeSelect"></select>
+            <input type="number" placeholder="Length (in meters)" class="pipeLength"/>
+        </div>
+    </div>
+
+    <button onclick="addPipe()">+ Add Another Pipe</button>
+    <button onclick="calculateTotalWeight()">Calculate Total Weight</button>
+
+    <div id="result"></div>
+
+    <div class="cta">
+        Need help? <a href="https://wa.me/919999889008?text=Hi!%20I%20want%20help%20with%20Seamless%20Pipes.">Chat with our pipe experts on WhatsApp</a>
+    </div>
+
+    
+    <footer>
+        <div style="font-weight: 600; font-size: 15px; color: #000000;">Powered by Vijay Sales Corporation</div>
+        <div style="font-size: 14px; margin-top: 4px; color: #444444;">
+            Your Cheat Code to Effortless Pipeline Purchasing
+        </div>
+        <div style="margin-top: 6px; font-size: 13px; color: #666;">
+            📞 <a href="tel:+919999889008" style="color: #666; text-decoration: none;">+91-9999889008</a> |
+            🌐 <a href="https://www.vijaysalescorp.com" style="color: #666; text-decoration: none;" target="_blank">www.vijaysalescorp.com</a>
+        </div>
+    </footer>
+    
+
+    <script>
+        const pipeData = ["10\u201d SCH.100","10\u201d SCH.120","10\u201d SCH.140\/XXS","10\u201d SCH.160","10\u201d SCH.20","10\u201d SCH.30","10\u201d SCH.40","10\u201d SCH.60","10\u201d SCH.80","12\u201d SCH. NS","12\u201d SCH.100","12\u201d SCH.120\/XXS","12\u201d SCH.140","12\u201d SCH.160","12\u201d SCH.20","12\u201d SCH.30","12\u201d SCH.40","12\u201d SCH.60","12\u201d SCH.80","12\u201d STD","12\u201d XS","14\u201d NS","14\u201d SCH.100","14\u201d SCH.120","14\u201d SCH.140","14\u201d SCH.160","14\u201d SCH.20","14\u201d SCH.30\/STD","14\u201d SCH.40","14\u201d SCH.60","14\u201d SCH.80","14\u201d XS","16\u201d SCH.30\/STD","16\u201d SCH.40\/XS","16\u201d SCH.80","18\u201d SCH. 40","18\u201d SCH. STD","18\u201d SCH. XS","1\u00bc\u201d SCH.160","1\u00bc\u201d SCH.40","1\u00bc\u201d SCH.80","1\u00bd\u201d SCH.160","1\u00bd\u201d SCH.40","1\u00bd\u201d SCH.80","1\u201d SCH.160","1\u201d SCH.40","1\u201d SCH.80","20\u201d SCH.20\/STD","20\u201d SCH.30\/XS","20\u201d SCH.40","2\u00bd\u201d SCH.160","2\u00bd\u201d SCH.40","2\u00bd\u201d SCH.80","2\u201d SCH.160","2\u201d SCH.40","2\u201d SCH.80","3\u00bd\u201d SCH.40","3\u00bd\u201d SCH.80","3\u201d SCH.160","3\u201d SCH.40","3\u201d SCH.80","4\u201d SCH.120","4\u201d SCH.160","4\u201d SCH.40","4\u201d SCH.80","5\u201d SCH.120","5\u201d SCH.40","5\u201d SCH.80","6\u201d SCH.120","6\u201d SCH.160","6\u201d SCH.40","6\u201d SCH.80","6\u201d SCH.XXS","8\u201d SCH.100","8\u201d SCH.120","8\u201d SCH.140","8\u201d SCH.160","8\u201d SCH.20","8\u201d SCH.30","8\u201d SCH.40","8\u201d SCH.60","8\u201d SCH.80","\u00bd\u201d SCH.160","\u00bd\u201d SCH.40","\u00bd\u201d SCH.80","\u00be\u201d SCH.160","\u00be\u201d SCH.40","\u00be\u201d SCH.80"];
+
+        const pipeInputs = document.getElementById("pipeInputs");
+
+        function populateDropdown(selectElement) {
+            pipeData.forEach((schedule, index) => {
+                const option = document.createElement("option");
+                option.value = schedule;
+                option.text = schedule;
+                selectElement.appendChild(option);
+            });
+        }
+
+        function addPipe() {
+            const container = document.createElement("div");
+            const select = document.createElement("select");
+            select.className = "pipeSelect";
+            const input = document.createElement("input");
+            input.type = "number";
+            input.placeholder = "Length (in meters)";
+            input.className = "pipeLength";
+
+            populateDropdown(select);
+            container.appendChild(select);
+            container.appendChild(input);
+            pipeInputs.appendChild(container);
+        }
+
+        function calculateTotalWeight() {
+            const selects = document.getElementsByClassName("pipeSelect");
+            const lengths = document.getElementsByClassName("pipeLength");
+            let totalWeightVal = 0;
+
+            for (let i = 0; i < selects.length; i++) {
+                const schedule = selects[i].value;
+                const length = parseFloat(lengths[i].value);
+
+                const match = pipeData.find(s => s === schedule);
+                const pipe = df.find(row => row["Schedule"] === match);
+                const weightPerMeter = parseFloat(pipe["Kg/Mtr"]);
+
+                if (!isNaN(length) && !isNaN(weightPerMeter)) {
+                    totalWeightVal += length * weightPerMeter;
+                }
+            }
+
+            document.getElementById("result").innerText = `Total Weight: ${totalWeightVal.toFixed(2)} Kg`;
+        }
+
+        const df = [{"OD (mm)":21.3,"Thickness (mm)":2.77,"Schedule":"\u00bd\u201d SCH.40","Kg\/Mtr":1.27,"Price\/mtr (INR)":"Rs.463\/-"},{"OD (mm)":21.3,"Thickness (mm)":3.73,"Schedule":"\u00bd\u201d SCH.80","Kg\/Mtr":1.62,"Price\/mtr (INR)":"Rs.591\/-"},{"OD (mm)":21.3,"Thickness (mm)":4.78,"Schedule":"\u00bd\u201d SCH.160","Kg\/Mtr":1.95,"Price\/mtr (INR)":"Rs.711\/-"},{"OD (mm)":26.7,"Thickness (mm)":2.87,"Schedule":"\u00be\u201d SCH.40","Kg\/Mtr":1.69,"Price\/mtr (INR)":"Rs.616\/-"},{"OD (mm)":26.7,"Thickness (mm)":3.91,"Schedule":"\u00be\u201d SCH.80","Kg\/Mtr":2.2,"Price\/mtr (INR)":"Rs.802\/-"},{"OD (mm)":26.7,"Thickness (mm)":5.56,"Schedule":"\u00be\u201d SCH.160","Kg\/Mtr":2.9,"Price\/mtr (INR)":"Rs.1057\/-"},{"OD (mm)":33.4,"Thickness (mm)":3.38,"Schedule":"1\u201d SCH.40","Kg\/Mtr":2.5,"Price\/mtr (INR)":"Rs.599\/-"},{"OD (mm)":33.4,"Thickness (mm)":4.55,"Schedule":"1\u201d SCH.80","Kg\/Mtr":3.24,"Price\/mtr (INR)":"Rs.776\/-"},{"OD (mm)":33.4,"Thickness (mm)":6.35,"Schedule":"1\u201d SCH.160","Kg\/Mtr":4.24,"Price\/mtr (INR)":"Rs.1,148\/-"},{"OD (mm)":42.2,"Thickness (mm)":3.56,"Schedule":"1\u00bc\u201d SCH.40","Kg\/Mtr":3.39,"Price\/mtr (INR)":"Rs.742\/-"},{"OD (mm)":42.2,"Thickness (mm)":4.85,"Schedule":"1\u00bc\u201d SCH.80","Kg\/Mtr":4.47,"Price\/mtr (INR)":"Rs.1,071\/-"},{"OD (mm)":42.2,"Thickness (mm)":6.35,"Schedule":"1\u00bc\u201d SCH.160","Kg\/Mtr":5.61,"Price\/mtr (INR)":"Rs.1,461\/-"},{"OD (mm)":48.3,"Thickness (mm)":3.68,"Schedule":"1\u00bd\u201d SCH.40","Kg\/Mtr":4.05,"Price\/mtr (INR)":"Rs.844\/-"},{"OD (mm)":48.3,"Thickness (mm)":5.08,"Schedule":"1\u00bd\u201d SCH.80","Kg\/Mtr":5.41,"Price\/mtr (INR)":"Rs.1,127\/-"},{"OD (mm)":48.3,"Thickness (mm)":7.14,"Schedule":"1\u00bd\u201d SCH.160","Kg\/Mtr":7.25,"Price\/mtr (INR)":"Rs.1,586\/-"},{"OD (mm)":60.3,"Thickness (mm)":3.91,"Schedule":"2\u201d SCH.40","Kg\/Mtr":5.44,"Price\/mtr (INR)":"Rs.1,031\/-"},{"OD (mm)":60.3,"Thickness (mm)":5.54,"Schedule":"2\u201d SCH.80","Kg\/Mtr":7.48,"Price\/mtr (INR)":"Rs.1,418\/-"},{"OD (mm)":60.3,"Thickness (mm)":8.74,"Schedule":"2\u201d SCH.160","Kg\/Mtr":11.11,"Price\/mtr (INR)":"Rs.2,338\/-"},{"OD (mm)":73.0,"Thickness (mm)":5.16,"Schedule":"2\u00bd\u201d SCH.40","Kg\/Mtr":8.63,"Price\/mtr (INR)":"Rs.1,618\/-"},{"OD (mm)":73.0,"Thickness (mm)":7.01,"Schedule":"2\u00bd\u201d SCH.80","Kg\/Mtr":11.41,"Price\/mtr (INR)":"Rs.2,139\/-"},{"OD (mm)":73.0,"Thickness (mm)":9.53,"Schedule":"2\u00bd\u201d SCH.160","Kg\/Mtr":14.92,"Price\/mtr (INR)":"Rs.3,108\/-"},{"OD (mm)":88.9,"Thickness (mm)":5.49,"Schedule":"3\u201d SCH.40","Kg\/Mtr":11.29,"Price\/mtr (INR)":"Rs.2,117\/-"},{"OD (mm)":88.9,"Thickness (mm)":7.62,"Schedule":"3\u201d SCH.80","Kg\/Mtr":15.27,"Price\/mtr (INR)":"Rs.2,863\/-"},{"OD (mm)":88.9,"Thickness (mm)":11.13,"Schedule":"3\u201d SCH.160","Kg\/Mtr":21.35,"Price\/mtr (INR)":"Rs.4,448\/-"},{"OD (mm)":101.6,"Thickness (mm)":5.74,"Schedule":"3\u00bd\u201d SCH.40","Kg\/Mtr":13.57,"Price\/mtr (INR)":"Rs.2,771\/-"},{"OD (mm)":101.6,"Thickness (mm)":8.08,"Schedule":"3\u00bd\u201d SCH.80","Kg\/Mtr":18.64,"Price\/mtr (INR)":"Rs.3,806\/-"},{"OD (mm)":114.3,"Thickness (mm)":6.02,"Schedule":"4\u201d SCH.40","Kg\/Mtr":16.08,"Price\/mtr (INR)":"Rs.3,015\/-"},{"OD (mm)":114.3,"Thickness (mm)":8.56,"Schedule":"4\u201d SCH.80","Kg\/Mtr":22.32,"Price\/mtr (INR)":"Rs.4,185\/-"},{"OD (mm)":114.3,"Thickness (mm)":11.13,"Schedule":"4\u201d SCH.120","Kg\/Mtr":28.32,"Price\/mtr (INR)":"Rs.5,664\/-"},{"OD (mm)":114.3,"Thickness (mm)":13.49,"Schedule":"4\u201d SCH.160","Kg\/Mtr":33.54,"Price\/mtr (INR)":"Rs.6,988\/-"},{"OD (mm)":141.3,"Thickness (mm)":6.55,"Schedule":"5\u201d SCH.40","Kg\/Mtr":21.77,"Price\/mtr (INR)":"Rs.4,082\/-"},{"OD (mm)":141.3,"Thickness (mm)":9.53,"Schedule":"5\u201d SCH.80","Kg\/Mtr":30.97,"Price\/mtr (INR)":"Rs.6,194\/-"},{"OD (mm)":141.3,"Thickness (mm)":12.7,"Schedule":"5\u201d SCH.120","Kg\/Mtr":40.28,"Price\/mtr (INR)":"Rs.8,392\/-"},{"OD (mm)":168.3,"Thickness (mm)":7.11,"Schedule":"6\u201d SCH.40","Kg\/Mtr":28.26,"Price\/mtr (INR)":"Rs.5,299\/-"},{"OD (mm)":168.3,"Thickness (mm)":10.97,"Schedule":"6\u201d SCH.80","Kg\/Mtr":42.56,"Price\/mtr (INR)":"Rs.7,980\/-"},{"OD (mm)":168.3,"Thickness (mm)":14.27,"Schedule":"6\u201d SCH.120","Kg\/Mtr":54.21,"Price\/mtr (INR)":"Rs.10,842\/-"},{"OD (mm)":168.3,"Thickness (mm)":18.26,"Schedule":"6\u201d SCH.160","Kg\/Mtr":67.57,"Price\/mtr (INR)":"Rs.14,077\/-"},{"OD (mm)":168.3,"Thickness (mm)":21.95,"Schedule":"6\u201d SCH.XXS","Kg\/Mtr":79.22,"Price\/mtr (INR)":"Rs.16,999\/-"},{"OD (mm)":219.1,"Thickness (mm)":6.35,"Schedule":"8\u201d SCH.20","Kg\/Mtr":33.32,"Price\/mtr (INR)":"Rs.7,636\/-"},{"OD (mm)":219.1,"Thickness (mm)":7.04,"Schedule":"8\u201d SCH.30","Kg\/Mtr":36.82,"Price\/mtr (INR)":"Rs.7,671\/-"},{"OD (mm)":219.1,"Thickness (mm)":8.18,"Schedule":"8\u201d SCH.40","Kg\/Mtr":42.55,"Price\/mtr (INR)":"Rs.8,599\/-"},{"OD (mm)":219.1,"Thickness (mm)":10.31,"Schedule":"8\u201d SCH.60","Kg\/Mtr":53.09,"Price\/mtr (INR)":"Rs.10,950\/-"},{"OD (mm)":219.1,"Thickness (mm)":12.7,"Schedule":"8\u201d SCH.80","Kg\/Mtr":64.64,"Price\/mtr (INR)":"Rs.13,601\/-"},{"OD (mm)":219.1,"Thickness (mm)":15.09,"Schedule":"8\u201d SCH.100","Kg\/Mtr":75.92,"Price\/mtr (INR)":"Rs.16,608\/-"},{"OD (mm)":219.1,"Thickness (mm)":18.26,"Schedule":"8\u201d SCH.120","Kg\/Mtr":90.44,"Price\/mtr (INR)":"Rs.19,784\/-"},{"OD (mm)":219.1,"Thickness (mm)":20.62,"Schedule":"8\u201d SCH.140","Kg\/Mtr":100.93,"Price\/mtr (INR)":"Rs.22,078\/-"},{"OD (mm)":219.1,"Thickness (mm)":23.01,"Schedule":"8\u201d SCH.160","Kg\/Mtr":111.27,"Price\/mtr (INR)":"Rs.24,340\/-"},{"OD (mm)":273.0,"Thickness (mm)":6.35,"Schedule":"10\u201d SCH.20","Kg\/Mtr":41.76,"Price\/mtr (INR)":"Rs.9,570\/-"},{"OD (mm)":273.0,"Thickness (mm)":7.8,"Schedule":"10\u201d SCH.30","Kg\/Mtr":51.01,"Price\/mtr (INR)":"Rs.10,627\/-"},{"OD (mm)":273.0,"Thickness (mm)":9.27,"Schedule":"10\u201d SCH.40","Kg\/Mtr":60.29,"Price\/mtr (INR)":"Rs.12,184\/-"},{"OD (mm)":273.0,"Thickness (mm)":12.7,"Schedule":"10\u201d SCH.60","Kg\/Mtr":81.53,"Price\/mtr (INR)":"Rs.16,816\/-"},{"OD (mm)":273.0,"Thickness (mm)":15.09,"Schedule":"10\u201d SCH.80","Kg\/Mtr":95.98,"Price\/mtr (INR)":"Rs.20,196\/-"},{"OD (mm)":273.0,"Thickness (mm)":18.26,"Schedule":"10\u201d SCH.100","Kg\/Mtr":114.71,"Price\/mtr (INR)":"Rs.25,093\/-"},{"OD (mm)":273.0,"Thickness (mm)":21.44,"Schedule":"10\u201d SCH.120","Kg\/Mtr":133.01,"Price\/mtr (INR)":"Rs.29,096\/-"},{"OD (mm)":273.0,"Thickness (mm)":25.4,"Schedule":"10\u201d SCH.140\/XXS","Kg\/Mtr":155.1,"Price\/mtr (INR)":"Rs.33,928\/-"},{"OD (mm)":273.0,"Thickness (mm)":28.58,"Schedule":"10\u201d SCH.160","Kg\/Mtr":172.27,"Price\/mtr (INR)":"Rs.37,684\/-"},{"OD (mm)":323.8,"Thickness (mm)":6.35,"Schedule":"12\u201d SCH.20","Kg\/Mtr":49.71,"Price\/mtr (INR)":"Rs.10,874\/-"},{"OD (mm)":323.8,"Thickness (mm)":8.38,"Schedule":"12\u201d SCH.30","Kg\/Mtr":65.19,"Price\/mtr (INR)":"Rs.13,853\/-"},{"OD (mm)":323.8,"Thickness (mm)":9.53,"Schedule":"12\u201d STD","Kg\/Mtr":73.86,"Price\/mtr (INR)":"Rs.15,695\/-"},{"OD (mm)":323.8,"Thickness (mm)":10.31,"Schedule":"12\u201d SCH.40","Kg\/Mtr":79.71,"Price\/mtr (INR)":"Rs.17,104\/-"},{"OD (mm)":323.8,"Thickness (mm)":12.7,"Schedule":"12\u201d XS","Kg\/Mtr":97.44,"Price\/mtr (INR)":"Rs.22,330\/-"},{"OD (mm)":323.8,"Thickness (mm)":14.27,"Schedule":"12\u201d SCH.60","Kg\/Mtr":108.93,"Price\/mtr (INR)":"Rs.24,963\/-"},{"OD (mm)":323.8,"Thickness (mm)":17.48,"Schedule":"12\u201d SCH.80","Kg\/Mtr":132.05,"Price\/mtr (INR)":"Rs.30,261\/-"},{"OD (mm)":323.8,"Thickness (mm)":21.44,"Schedule":"12\u201d SCH.100","Kg\/Mtr":159.87,"Price\/mtr (INR)":"Rs.36,637\/-"},{"OD (mm)":323.8,"Thickness (mm)":25.4,"Schedule":"12\u201d SCH.120\/XXS","Kg\/Mtr":186.92,"Price\/mtr (INR)":"Rs.42,836\/-"},{"OD (mm)":323.8,"Thickness (mm)":28.58,"Schedule":"12\u201d SCH.140","Kg\/Mtr":208.08,"Price\/mtr (INR)":"Rs.47,685\/-"},{"OD (mm)":323.8,"Thickness (mm)":33.32,"Schedule":"12\u201d SCH.160","Kg\/Mtr":238.69,"Price\/mtr (INR)":"Rs.54,700\/-"},{"OD (mm)":323.8,"Thickness (mm)":36.0,"Schedule":"12\u201d SCH. NS","Kg\/Mtr":255.51,"Price\/mtr (INR)":"Rs.61,216\/-"},{"OD (mm)":323.8,"Thickness (mm)":40.0,"Schedule":"12\u201d SCH. NS","Kg\/Mtr":279.96,"Price\/mtr (INR)":"Rs.67,074\/-"},{"OD (mm)":355.6,"Thickness (mm)":7.92,"Schedule":"14\u201d SCH.20","Kg\/Mtr":67.91,"Price\/mtr (INR)":"Rs.15,280\/-"},{"OD (mm)":355.6,"Thickness (mm)":9.53,"Schedule":"14\u201d SCH.30\/STD","Kg\/Mtr":81.33,"Price\/mtr (INR)":"Rs.18,638\/-"},{"OD (mm)":355.6,"Thickness (mm)":11.13,"Schedule":"14\u201d SCH.40","Kg\/Mtr":94.55,"Price\/mtr (INR)":"Rs.21,668\/-"},{"OD (mm)":355.6,"Thickness (mm)":12.7,"Schedule":"14\u201d XS","Kg\/Mtr":107.4,"Price\/mtr (INR)":"Rs.24,613\/-"},{"OD (mm)":355.6,"Thickness (mm)":15.09,"Schedule":"14\u201d SCH.60","Kg\/Mtr":126.72,"Price\/mtr (INR)":"Rs.29,040\/-"},{"OD (mm)":355.6,"Thickness (mm)":19.05,"Schedule":"14\u201d SCH.80","Kg\/Mtr":158.11,"Price\/mtr (INR)":"Rs.36,234\/-"},{"OD (mm)":355.6,"Thickness (mm)":23.83,"Schedule":"14\u201d SCH.100","Kg\/Mtr":194.98,"Price\/mtr (INR)":"Rs.44,683\/-"},{"OD (mm)":355.6,"Thickness (mm)":27.79,"Schedule":"14\u201d SCH.120","Kg\/Mtr":224.66,"Price\/mtr (INR)":"Rs.51,485\/-"},{"OD (mm)":355.6,"Thickness (mm)":31.75,"Schedule":"14\u201d SCH.140","Kg\/Mtr":253.58,"Price\/mtr (INR)":"Rs.58,112\/-"},{"OD (mm)":355.6,"Thickness (mm)":35.01,"Schedule":"14\u201d NS","Kg\/Mtr":276.78,"Price\/mtr (INR)":"Rs.63,429\/-"},{"OD (mm)":355.6,"Thickness (mm)":35.71,"Schedule":"14\u201d SCH.160","Kg\/Mtr":281.72,"Price\/mtr (INR)":"Rs.64,591\/-"},{"OD (mm)":406.4,"Thickness (mm)":9.53,"Schedule":"16\u201d SCH.30\/STD","Kg\/Mtr":93.27,"Price\/mtr (INR)":"Rs.23,318\/-"},{"OD (mm)":406.4,"Thickness (mm)":12.7,"Schedule":"16\u201d SCH.40\/XS","Kg\/Mtr":123.31,"Price\/mtr (INR)":"Rs.30,828\/-"},{"OD (mm)":406.4,"Thickness (mm)":21.44,"Schedule":"16\u201d SCH.80","Kg\/Mtr":203.54,"Price\/mtr (INR)":"Rs.50,885\/-"},{"OD (mm)":457.0,"Thickness (mm)":9.53,"Schedule":"18\u201d SCH. STD","Kg\/Mtr":105.17,"Price\/mtr (INR)":"Rs.28,484\/-"},{"OD (mm)":457.0,"Thickness (mm)":12.7,"Schedule":"18\u201d SCH. XS","Kg\/Mtr":139.16,"Price\/mtr (INR)":"Rs.37,689\/-"},{"OD (mm)":457.0,"Thickness (mm)":14.27,"Schedule":"18\u201d SCH. 40","Kg\/Mtr":155.81,"Price\/mtr (INR)":"Rs.42,199\/-"},{"OD (mm)":508.0,"Thickness (mm)":9.53,"Schedule":"20\u201d SCH.20\/STD","Kg\/Mtr":117.15,"Price\/mtr (INR)":"Rs.31,728\/-"},{"OD (mm)":508.0,"Thickness (mm)":12.7,"Schedule":"20\u201d SCH.30\/XS","Kg\/Mtr":155.13,"Price\/mtr (INR)":"Rs.42,014\/-"},{"OD (mm)":508.0,"Thickness (mm)":15.09,"Schedule":"20\u201d SCH.40","Kg\/Mtr":183.43,"Price\/mtr (INR)":"Rs.49,679\/-"}];
+
+        // Initialize first dropdown
+        populateDropdown(document.getElementsByClassName("pipeSelect")[0]);
+    </script>
+
+</body>
+</html>
